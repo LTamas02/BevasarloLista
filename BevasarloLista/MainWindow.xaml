@@ -1,0 +1,28 @@
+﻿<Window x:Class="BevasarloLista.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BevasarloLista"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <DataGrid Grid.Row="0" x:Name="dataGrid"/>
+        <ScrollViewer Grid.Row="1">
+            <GroupBox Header="Termékek" Margin="10">
+                <WrapPanel x:Name="termekWrapPanel" >
+                    <Button Content="Hozzáadás" Width="100" Height="30" Margin="5" Click="HozzaAdas_Click"/>
+                    <Button Content="Törlés" Width="100" Height="30" Margin="5" Click="Torles_Click"/>
+                    <Button Content="A 3 típus legdrágább" Width="100" Height="30" Margin="5" Click="htld_Click"/>
+                    <Button Content="Top 5 összérték szerint" Width="100" Height="30" Margin="5" Click="t5oesz_Click"/>
+                </WrapPanel>
+            </GroupBox>
+        </ScrollViewer>
+
+
+    </Grid>
+</Window>
