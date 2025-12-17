@@ -61,15 +61,17 @@ namespace BevasarloLista
             if (ujtermek.ShowDialog()==true)
             {
                 termekek.Add(ujtermek.ujTermek);
+                dataGrid.ItemsSource = termekek;
                 dataGrid.Items.Refresh();
             }
         }
 
         private void Torles_Click(object sender, RoutedEventArgs e)
         {
-            if (dataGrid.SelectedItem!=null)
+            if (dataGrid.SelectedItem!=null && dataGrid.SelectedItem is ItemModel)
             {
                 termekek.Remove((ItemModel)dataGrid.SelectedItem);
+                dataGrid.ItemsSource = termekek;
                 dataGrid.Items.Refresh();
             }
         }
@@ -82,6 +84,56 @@ namespace BevasarloLista
         private void t5oesz_Click(object sender, RoutedEventArgs e)
         {
             dataGrid.ItemsSource = termekek.OrderByDescending(x => x.Osszesen).Take(5);
+        }
+
+        private void MnM1_Click(object sender, RoutedEventArgs e)
+        {
+            dataGrid.ItemsSource = termekek.Where(x => x.Mennyiseg>1).Select(x => x.Ar);
+        }
+
+        private void Reset_Click(object sender, RoutedEventArgs e)
+        {
+            dataGrid.ItemsSource = termekek;
+        }
+
+        private void csokken_Click(object sender, RoutedEventArgs e)
+        {
+            dataGrid.ItemsSource = termekek.OrderByDescending(x => new {Nev=x.Nev,Összeg=x.Osszesen});
+        }
+
+        private void n500_Click(object sender, RoutedEventArgs e)
+        {
+            dataGrid.ItemsSource = termekek.Where(x => x.Kategoria=="D" &&x.Osszesen < 500);
+        }
+
+        private void NeOABC_Click(object sender, RoutedEventArgs e)
+        {
+            dataGrid.ItemsSource = termekek.OrderBy(x => x.Nev).Select(x=>new { x.Nev, x.Osszesen });
+        }
+
+
+        private void TipusRendezes_Click(object sender, RoutedEventArgs e)
+        {
+            dataGrid.ItemsSource = termekek.OrderBy(x => x.Nev)
+                .GroupBy(x => x.Kategoria)
+                .Select(x => new{Típus = x.Key, Darab=x.Sum(x=>x.Mennyiseg), Összesen=x.Sum(x=>x.Osszesen)});
+        }
+
+        private void TipusAtlagAr_Click(object sender, RoutedEventArgs e)
+        {
+            dataGrid.ItemsSource = termekek
+                .GroupBy(x => x.Kategoria)
+                .Select(x => new { Kategória = x.Key, Átlagár =Math.Round( x.Average(x => x.Ar) }));
+        }
+        private void LoK_Click(object sender, RoutedEventArgs e)
+        {
+            dataGrid.ItemsSource = termekek.GroupBy(x => x.Kategoria)
+                .Select(x => new { Kategória = x.Key, Összérték=x.Max(x=>x.Osszesen)});
+        }
+
+        private void bct1000k_Click(object sender, RoutedEventArgs e)
+        {
+            dataGrid.ItemsSource = termekek.Where(x => (x.Kategoria == "B" || x.Kategoria == "C") && x.Ar < 1000);
         }
     }
 }

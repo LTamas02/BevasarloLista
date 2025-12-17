@@ -15,10 +15,19 @@
         <ScrollViewer Grid.Row="1">
             <GroupBox Header="Termékek" Margin="10">
                 <WrapPanel x:Name="termekWrapPanel" >
+                    <Button Content="Összes adat" Width="100" Height="30" Margin="5" Click="Reset_Click"/>
                     <Button Content="Hozzáadás" Width="100" Height="30" Margin="5" Click="HozzaAdas_Click"/>
                     <Button Content="Törlés" Width="100" Height="30" Margin="5" Click="Torles_Click"/>
                     <Button Content="A 3 típus legdrágább" Width="100" Height="30" Margin="5" Click="htld_Click"/>
                     <Button Content="Top 5 összérték szerint" Width="100" Height="30" Margin="5" Click="t5oesz_Click"/>
+                    <Button Content="Mennyiség nagyobb mint 1" Width="100" Height="30" Margin="5" Click="MnM1_Click"/>
+                    <Button Content="Ár szerint csökkenő" Width="100" Height="30" Margin="5" Click="csokken_Click"/>
+                    <Button Content="Minden D típus > 500" Width="100" Height="30" Margin="5" Click="n500_Click"/>
+                    <Button Content="Név + összérték ABC" Width="100" Height="30" Margin="5" Click="NeOABC_Click"/>
+                    <Button Content="Típus db+ összesen" Width="100" Height="30" Margin="5" Click="TipusRendezes_Click"/>
+                    <Button Content="Típus átlagár" Width="100" Height="30" Margin="5" Click="TipusAtlagAr_Click"/>
+                    <Button Content="Legnagyobb öszérték kategoriánként" Width="100" Height="30" Margin="5" Click="LoK_Click"/>
+                    <Button Content="B+C típus,1000Ft kisebb" Width="100" Height="30" Margin="5" Click="bct1000k_Click"/>
                 </WrapPanel>
             </GroupBox>
         </ScrollViewer>
