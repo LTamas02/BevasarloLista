@@ -11,7 +11,7 @@
             <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
-        <DataGrid Grid.Row="0" x:Name="dataGrid"/>
+        <DataGrid Grid.Row="0" x:Name="dataGrid" SelectionChanged="dg_SelectionChange"/>
         <ScrollViewer Grid.Row="1">
             <GroupBox Header="Termékek" Margin="10">
                 <WrapPanel x:Name="termekWrapPanel" >
@@ -28,6 +28,21 @@
                     <Button Content="Típus átlagár" Width="100" Height="30" Margin="5" Click="TipusAtlagAr_Click"/>
                     <Button Content="Legnagyobb öszérték kategoriánként" Width="100" Height="30" Margin="5" Click="LoK_Click"/>
                     <Button Content="B+C típus,1000Ft kisebb" Width="100" Height="30" Margin="5" Click="bct1000k_Click"/>
+                    <Button Content="500Ft felett, kategoria szerint" Width="100" Height="30" Margin="5" Click="ofksz_Click"/>
+                    <Button Content=">10 db és kisebb 1000Ft" Width="100" Height="30" Margin="5" Click="kM10K1000_Click"/>
+                    <Button Content="Összérték nagyobb mint 2000Ft ABC" Width="100" Height="30" Margin="5" Click="nM2000ABC_Click"/>
+                    <Button Content="Termék + Típus" Width="100" Height="30" Margin="5" Click="tnTCs_Click"/>
+                    <Button Content="Legértékesebb termék" Width="100" Height="30" Margin="5" Click="LET_Click"/>
+                    <Button Content="Összesített darabszám típusonként" Width="100" Height="30" Margin="5" Click="OdbTk_Click"/>
+                    <Button Content="Van 0 Ft-os termék?" Width="100" Height="30" Margin="5" Click="nullaFt_Click"/>
+                    <Button Content="Csak kenyerel" Width="100" Height="30" Margin="5" Click="CsK_Click"/>
+                    <Button Content="Megegyező ár" Width="100" Height="30" Margin="5" Click="MegEgyAr_Click"/>
+                    <TextBox x:Name="textBox" Width="100" Height="20" Margin="5" TextChanged="Valtozas"/>
+                    <Button Content="Egyező Termékek" Width="100" Height="30" Margin="5" Click="EgyTer_Click"/>
+                    <ProgressBar x:Name="progressBar" Width="100" Height="20" Margin="5" Value="0"/>
+                    <Button Content="Nem C kategóriás" Width="100" Height="30" Click="NemC_Click"/>
+                    <Button Content="Név Hossz szerint" Width="100" Height="30" Margin="5" Click="NevHossz_Click"/>
+                    <Button Content="A típus össz ár" Width="100" Height="30" Margin="5" Click="AtOar_Click"/>
                 </WrapPanel>
             </GroupBox>
         </ScrollViewer>

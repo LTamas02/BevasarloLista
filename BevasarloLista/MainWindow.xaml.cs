@@ -51,6 +51,8 @@ namespace BevasarloLista
             termekek.Add(new ItemModel("Tej", 12, 400, "A"));
             termekek.Add(new ItemModel("Sajt", 5, 1500, "D"));
             dataGrid.ItemsSource = termekek;
+            progressBar.Minimum = termekek.Min(x => x.Ar);
+            progressBar.Maximum = termekek.Max(x => x.Osszesen);
         }
 
 
@@ -63,6 +65,8 @@ namespace BevasarloLista
                 termekek.Add(ujtermek.ujTermek);
                 dataGrid.ItemsSource = termekek;
                 dataGrid.Items.Refresh();
+                progressBar.Minimum = termekek.Min(x => x.Ar);
+                progressBar.Maximum = termekek.Max(x => x.Osszesen);
             }
         }
 
@@ -73,6 +77,8 @@ namespace BevasarloLista
                 termekek.Remove((ItemModel)dataGrid.SelectedItem);
                 dataGrid.ItemsSource = termekek;
                 dataGrid.Items.Refresh();
+                progressBar.Minimum = termekek.Min(x => x.Ar);
+                progressBar.Maximum = termekek.Max(x => x.Osszesen);
             }
         }
 
@@ -134,6 +140,103 @@ namespace BevasarloLista
         private void bct1000k_Click(object sender, RoutedEventArgs e)
         {
             dataGrid.ItemsSource = termekek.Where(x => (x.Kategoria == "B" || x.Kategoria == "C") && x.Ar < 1000);
+        }
+
+        private void ofksz_Click(object sender, RoutedEventArgs e)
+        {
+            dataGrid.ItemsSource = termekek.Where(x => x.Ar>500).GroupBy(x=>x.Kategoria)
+                .Select(x => new {Kategória=x.Key,TermékekSzáma=x.Count()});
+        }
+        private void kM10K1000_Click(object sender, RoutedEventArgs e)
+        {
+            dataGrid.ItemsSource = termekek.Where(x => x.Mennyiseg>10 && x.Ar<1000).OrderBy(x=>x.Ar);
+        }
+
+        private void nM2000ABC_Click(object sender, RoutedEventArgs e)
+        {
+            dataGrid.ItemsSource = termekek.Where(x => x.Ar > 2000).OrderBy(x => x.Nev);
+        }
+
+        private void tnTCs_Click(object sender, RoutedEventArgs e)
+        {
+            dataGrid.ItemsSource = termekek.GroupBy(x => new { Nev = x.Nev, Kategoria = x.Kategoria })
+                .Select(x => new{TermekNev=x.Key.Nev,Kategoria=x.Key.Kategoria,Darab=x.Count()});
+        }
+
+        private void LET_Click(object sender, RoutedEventArgs e)
+        {
+            dataGrid.ItemsSource= termekek.GroupBy(x => x.Kategoria).Select(x => new{Kategória=x.Key,Termek=x.Max(x=>x.Ar) });
+        }
+
+        private void OdbTk_Click(object sender, RoutedEventArgs e)
+        {
+            dataGrid.ItemsSource = termekek.GroupBy(x => x.Kategoria)
+                .Select(x => new { Kategória = x.Key, Darab = x.Sum(x => x.Mennyiseg) });
+        }
+
+        private void nullaFt_Click(object sender, RoutedEventArgs e)
+        {
+            var nullaFtTermekek = termekek.Any(x => x.Ar == 0);
+            if (nullaFtTermekek==false)
+            {
+                MessageBox.Show("Nincs nulla Ft-os termék");
+            }
+            else
+            {
+                MessageBox.Show("Van nulla Ft-os termék");
+            }
+        }
+
+        private void CsK_Click(object sender, RoutedEventArgs e)
+        {
+            dataGrid.ItemsSource = termekek.Where(x => x.Nev.Contains("Kenyer")).OrderByDescending(x=>x.Ar);   
+        }
+
+        private void MegEgyAr_Click(object sender, RoutedEventArgs e)
+        {
+            var egyformak = termekek.GroupBy(x => x.Ar).Select(x => new {darab=x.Count()}).Any(x=>x.darab>1);
+            if (egyformak==true)
+            {
+                MessageBox.Show("Vannak megegyező árú termékek");
+            }
+            else
+            {
+                MessageBox.Show("Nincsenek megegyező árú termékek");
+            }
+        }
+
+        private void Valtozas(object sender, TextChangedEventArgs e)
+        {
+            dataGrid.ItemsSource = termekek.Where(x => x.Nev.ToLower().Contains(textBox.Text.ToLower())).ToList();
+        }
+
+        private void EgyTer_Click(object sender, RoutedEventArgs e)
+        {
+            dataGrid.ItemsSource = termekek.GroupBy(x => x.Nev)
+                .Where(x=>x.Count()>1)
+                .SelectMany(x=>x);
+        }
+
+        private void dg_SelectionChange(object sender, SelectionChangedEventArgs e)
+        {
+            if (dataGrid.SelectedItem is ItemModel selectedItem)
+            {
+                progressBar.Value = selectedItem.Ar;
+            }
+        }
+
+        private void NemC_Click(object sender, RoutedEventArgs e)
+        {
+            dataGrid.ItemsSource = termekek.Where(x => x.Kategoria != "C");
+        }
+        private void NevHossz_Click(object sender, RoutedEventArgs e)
+        {
+            dataGrid.ItemsSource = termekek.OrderBy(x => x.Nev.Length);
+        }
+
+        private void AtOar_Click(object sender, RoutedEventArgs e)
+        {
+            dataGrid.ItemsSource = termekek.Where(x => x.Kategoria == "A").OrderBy(x => x.Nev).Select(x => new {Kategória=x.Kategoria, Név=x.Nev,Összes=x.Osszesen});
         }
     }
 }
